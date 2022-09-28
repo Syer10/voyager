@@ -1,19 +1,20 @@
 [versions]
-plugin-android = "7.1.1"
+plugin-android = "7.3.0"
 plugin-ktlint = "10.2.1"
 plugin-maven = "0.18.0"
-plugin-multiplatform-compose = "1.0.1"
+plugin-multiplatform-compose = "1.2.0-beta01"
 
-coroutines = "1.6.0"
-kotlin = "1.6.10"
+coroutines = "1.6.4"
+kotlin = "1.7.10"
 kodein = "7.11.0"
 koin = "3.1.5"
-hilt = "2.41"
+hilt = "2.44"
 leakCanary = "2.8.1"
 appCompat = "1.4.1"
 lifecycle = "2.4.1"
-compose = "1.1.0"
-composeActivity = "1.4.0"
+compose = "1.2.1"
+composeCompiler = "1.3.0"
+composeActivity = "1.6.0"
 
 junit = "5.8.2"
 
@@ -37,7 +38,7 @@ lifecycle-savedState = { module = "androidx.lifecycle:lifecycle-viewmodel-saveds
 lifecycle-viewModelKtx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 lifecycle-viewModelCompose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 compose-rxjava = { module = "androidx.compose.runtime:runtime-rxjava3", version.ref = "compose" }
-compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose" }
+compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" }
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 compose-runtimeSaveable = { module = "androidx.compose.runtime:runtime-saveable", version.ref = "compose" }
 compose-runtimeLiveData = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose" }
