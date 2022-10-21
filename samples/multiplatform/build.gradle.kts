@@ -11,7 +11,10 @@ plugins {
     id("org.jetbrains.compose")
 }
 
-setupModuleForComposeMultiplatform(fullyMultiplatform = true)
+setupModuleForComposeMultiplatform(
+    fullyMultiplatform = true,
+    withKotlinExplicitMode = false
+)
 
 kotlin {
     macosX64 {
