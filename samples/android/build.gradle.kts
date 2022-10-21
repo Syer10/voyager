@@ -1,8 +1,8 @@
 plugins {
     kotlin("android")
-    kotlin("kapt")
+    //kotlin("kapt")
     id("com.android.application")
-    id("dagger.hilt.android.plugin")
+    //id("dagger.hilt.android.plugin")
 }
 
 setupModuleForAndroidxCompose(
@@ -16,9 +16,11 @@ android {
     }
 }
 
+/*
 kapt {
     correctErrorTypes = true
 }
+*/
 
 dependencies {
     implementation(projects.voyagerNavigator)
@@ -45,7 +47,7 @@ dependencies {
     implementation(libs.compose.material)
     implementation(libs.compose.materialIcons)
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    //kapt(libs.hilt.compiler)
 
     debugImplementation(libs.leakCanary)
 }
