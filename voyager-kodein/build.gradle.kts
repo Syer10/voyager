@@ -12,7 +12,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.voyagerCore)
-                compileOnly(compose.runtime)
+                api(compose.runtime)
                 implementation(libs.kodein)
             }
         }

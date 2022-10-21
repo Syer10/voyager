@@ -22,8 +22,8 @@ kapt {
 dependencies {
     api(projects.voyagerAndroidx)
 
-    implementation(libs.compose.runtime)
-    implementation(libs.compose.ui)
+    api(libs.compose.runtime)
+    api(libs.compose.ui)
     implementation(libs.lifecycle.savedState)
     implementation(libs.lifecycle.viewModelKtx)
     implementation(libs.hilt.android)

@@ -69,7 +69,8 @@ public class AndroidScreenLifecycleOwner private constructor() :
 
     override fun getViewModelStore(): ViewModelStore = store
 
-    override fun getSavedStateRegistry(): SavedStateRegistry = controller.savedStateRegistry
+    override val savedStateRegistry: SavedStateRegistry
+        get() = controller.savedStateRegistry
 
     public companion object {
 

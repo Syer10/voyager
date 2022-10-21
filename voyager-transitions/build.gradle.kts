@@ -13,7 +13,7 @@ kotlin {
             dependencies {
                 api(projects.voyagerCore)
                 api(projects.voyagerNavigator)
-                compileOnly(compose.animation)
+                api(compose.animation)
             }
         }
 

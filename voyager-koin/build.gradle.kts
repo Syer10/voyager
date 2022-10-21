@@ -18,7 +18,7 @@ dependencies {
     api(projects.voyagerCore)
 
     implementation(libs.koin)
-    implementation(libs.compose.runtime)
+    api(libs.compose.runtime)
 
     testRuntimeOnly(libs.junit.engine)
     testImplementation(libs.junit.api)
