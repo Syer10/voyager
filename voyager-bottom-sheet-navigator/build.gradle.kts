@@ -13,8 +13,8 @@ kotlin {
             dependencies {
                 api(projects.voyagerCore)
                 api(projects.voyagerNavigator)
-                compileOnly(compose.runtime)
-                compileOnly(compose.material)
+                api(compose.runtime)
+                api(compose.material)
             }
         }
 

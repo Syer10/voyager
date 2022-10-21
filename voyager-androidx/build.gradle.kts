@@ -21,7 +21,7 @@ dependencies {
     implementation(libs.lifecycle.savedState)
     implementation(libs.lifecycle.viewModelKtx)
     implementation(libs.lifecycle.viewModelCompose)
-    implementation(libs.compose.runtimeSaveable)
+    api(libs.compose.runtimeSaveable)
 
     testRuntimeOnly(libs.junit.engine)
     testImplementation(libs.junit.api)
