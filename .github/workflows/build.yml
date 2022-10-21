@@ -1,0 +1,109 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - v*
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macOS-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Fetch expanded history, which is needed for affected module detection
+          fetch-depth: '500'
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Decrypt secrets
+        run: release/signing-setup.sh ${{ secrets.ENCRYPT_KEY }}
+
+      #      - name: Generate cache key
+      #        run: ./checksum.sh checksum.txt
+      #
+      #      - uses: actions/cache@v2
+      #        with:
+      #          path: |
+      #            ~/.gradle/caches/modules-*
+      #            ~/.gradle/caches/jars-*
+      #            ~/.gradle/caches/build-cache-*
+      #          key: gradle-${{ hashFiles('checksum.txt') }}
+
+      - name: Build
+        run: |
+          ./gradlew --stacktrace \
+              assemble
+
+      #      - name: Unit Tests
+      #        run: |
+      #          ./scripts/run-tests.sh \
+      #              --unit-tests \
+      #              --run-affected \
+      #              --affected-base-ref=$BASE_REF
+      #
+      #      - name: Upload test results
+      #        if: always()
+      #        uses: actions/upload-artifact@v2
+      #        with:
+      #          name: test-results-robolectric
+      #          path: |
+      #            **/build/test-results/*
+      #            **/build/reports/*
+
+      - name: Clean secrets
+        if: always()
+        run: release/signing-cleanup.sh
+
+  deploy:
+    if: github.event_name == 'push' # only deploy for pushed commits (not PRs)
+
+    runs-on: macOS-latest
+    needs: [ build ]
+    timeout-minutes: 30
+    env:
+      TERM: dumb
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Decrypt secrets
+        run: release/signing-setup.sh ${{ secrets.ENCRYPT_KEY }}
+
+      #      - name: Generate cache key
+      #        run: ./checksum.sh checksum.txt
+      #
+      #      - uses: actions/cache@v2
+      #        with:
+      #          path: |
+      #            ~/.gradle/caches/modules-*
+      #            ~/.gradle/caches/jars-*
+      #            ~/.gradle/caches/build-cache-*
+      #          key: gradle-${{ hashFiles('checksum.txt') }}
+
+      - name: Deploy to Sonatype
+        run: ./gradlew publish --stacktrace
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+
+      - name: Clean secrets
+        if: always()
+        run: release/signing-cleanup.sh
