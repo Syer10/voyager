@@ -16,10 +16,6 @@ buildscript {
 
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
-}
-
-tasks.register<Delete>("clean") {
-    delete(rootProject.buildDir)
 
     // Read in the signing.properties file if it is exists
     val signingPropsFile = rootProject.file("release/signing.properties")
@@ -39,4 +35,8 @@ tasks.register<Delete>("clean") {
             }
         }
     }
+}
+
+tasks.register<Delete>("clean") {
+    delete(rootProject.buildDir)
 }
