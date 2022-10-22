@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     tags:
-      - v*
+      - *
   pull_request:
 
 jobs:
