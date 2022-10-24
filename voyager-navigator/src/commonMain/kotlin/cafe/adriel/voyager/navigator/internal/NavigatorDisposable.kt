@@ -4,8 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import cafe.adriel.voyager.core.lifecycle.DisposableEffectIgnoringConfiguration
 import cafe.adriel.voyager.core.lifecycle.ScreenLifecycleOwner
-import cafe.adriel.voyager.core.lifecycle.rememberScreenLifecycleOwner
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 

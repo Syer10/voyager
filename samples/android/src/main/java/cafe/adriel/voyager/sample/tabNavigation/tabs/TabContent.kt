@@ -23,7 +23,6 @@ import cafe.adriel.voyager.sample.basicNavigation.BasicNavigationScreen
 import cafe.adriel.voyager.sample.screenModel.ListScreenModel
 import cafe.adriel.voyager.transitions.SlideTransition
 import org.koin.androidx.compose.getStateViewModel
-import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

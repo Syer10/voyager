@@ -2,7 +2,6 @@ package cafe.adriel.voyager.navigator
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
