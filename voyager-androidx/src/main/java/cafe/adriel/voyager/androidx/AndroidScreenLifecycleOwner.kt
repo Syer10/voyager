@@ -96,7 +96,7 @@ public class AndroidScreenLifecycleOwner private constructor() :
 
     override fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory {
         return SavedStateViewModelFactory(
-            (atomicContext.get().applicationContext as? Application),
+            (atomicContext.get()?.applicationContext as? Application),
             this
         )
     }
