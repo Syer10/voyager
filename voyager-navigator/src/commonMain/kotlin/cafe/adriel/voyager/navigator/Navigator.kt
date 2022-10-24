@@ -2,6 +2,7 @@ package cafe.adriel.voyager.navigator
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -15,6 +16,7 @@ import cafe.adriel.voyager.core.model.ScreenModelStore
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.Stack
 import cafe.adriel.voyager.core.stack.toMutableStateStack
+import cafe.adriel.voyager.navigator.internal.LifecycleDisposableEffect
 import cafe.adriel.voyager.navigator.internal.LocalNavigatorStateHolder
 import cafe.adriel.voyager.navigator.internal.NavigatorBackHandler
 import cafe.adriel.voyager.navigator.internal.NavigatorDisposableEffect
@@ -70,8 +72,6 @@ public fun Navigator(
         LocalNavigatorStateHolder providesDefault rememberSaveableStateHolder()
     ) {
         val navigator = rememberNavigator(screens, disposeBehavior, LocalNavigator.current)
-        val lifecycleOwner = rememberScreenLifecycleOwner(navigator.lastItem)
-        val hooks = lifecycleOwner.getHooks()
 
         if (navigator.parent?.disposeBehavior?.disposeNestedNavigators != false) {
             NavigatorDisposableEffect(navigator)
@@ -79,7 +79,6 @@ public fun Navigator(
 
         CompositionLocalProvider(
             LocalNavigator provides navigator,
-            *hooks.providers.toTypedArray()
         ) {
             if (disposeBehavior.disposeSteps) {
                 StepDisposableEffect(navigator)
@@ -124,7 +123,14 @@ public class Navigator internal constructor(
     ) {
         val stateKey = "${screen.key}:$key"
         stateKeys += stateKey
-        stateHolder.SaveableStateProvider(stateKey, content)
+
+        val lifecycleOwner = rememberScreenLifecycleOwner(screen)
+        LifecycleDisposableEffect(lifecycleOwner)
+        val hooks = lifecycleOwner.getHooks()
+
+        CompositionLocalProvider(*hooks.providers.toTypedArray()) {
+            stateHolder.SaveableStateProvider(stateKey, content = content)
+        }
     }
 
     public fun popUntilRoot() {
@@ -147,6 +153,7 @@ public class Navigator internal constructor(
         stateKeys
             .asSequence()
             .filter { it.startsWith(screen.key) }
+            .distinct()
             .forEach { key ->
                 stateHolder.removeState(key)
                 stateKeys -= key
