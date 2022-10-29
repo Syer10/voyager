@@ -2,6 +2,7 @@ package cafe.adriel.voyager.hilt
 
 import android.app.Application
 import androidx.activity.ComponentActivity
+import androidx.lifecycle.HasDefaultViewModelProviderFactory
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.savedstate.SavedStateRegistryOwner
@@ -37,7 +38,13 @@ public object VoyagerHiltViewModelFactories {
             delegateFactory: ViewModelProvider.Factory?
         ): ViewModelProvider.Factory {
             val defaultArgs = activity.intent?.extras
-            val delegate = delegateFactory ?: SavedStateViewModelFactory(application, owner, defaultArgs)
+            val delegate = delegateFactory
+                ?: if (owner is HasDefaultViewModelProviderFactory) {
+                    owner.defaultViewModelProviderFactory
+                } else {
+                    null
+                }
+                ?: SavedStateViewModelFactory(application, owner, defaultArgs)
             return HiltViewModelFactory(owner, defaultArgs, keySet, delegate, viewModelComponentBuilder)
         }
     }
