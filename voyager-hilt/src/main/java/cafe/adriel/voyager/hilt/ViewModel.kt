@@ -28,17 +28,18 @@ public inline fun <reified T : ViewModel> Screen.getViewModel(
     val context = LocalContext.current
     return remember(key1 = T::class) {
         val activity = context.componentActivity
-        val lifecycleOwner = (this as? ScreenLifecycleProvider)?.getLifecycleOwner() as? AndroidScreenLifecycleOwner
-        val viewModelStore = lifecycleOwner?.viewModelStore ?: activity.viewModelStore
+        val lifecycleOwner = (this as? ScreenLifecycleProvider)
+            ?.getLifecycleOwner() as? AndroidScreenLifecycleOwner
+            ?: activity
         val factory = VoyagerHiltViewModelFactories.getVoyagerFactory(
             activity = activity,
-            owner = lifecycleOwner ?: activity,
-            delegateFactory = viewModelProviderFactory
+            owner = lifecycleOwner,
+            delegateFactory = viewModelProviderFactory ?: lifecycleOwner.defaultViewModelProviderFactory
         )
         val provider = ViewModelProvider(
-            store = viewModelStore,
+            store = lifecycleOwner.viewModelStore,
             factory = factory,
-            defaultCreationExtras = lifecycleOwner?.defaultViewModelCreationExtras ?: CreationExtras.Empty
+            defaultCreationExtras = lifecycleOwner.defaultViewModelCreationExtras
         )
         provider[T::class.java]
     }

@@ -20,32 +20,22 @@ public object VoyagerHiltViewModelFactories {
     public fun getVoyagerFactory(
         activity: ComponentActivity,
         owner: SavedStateRegistryOwner,
-        delegateFactory: ViewModelProvider.Factory?
+        delegateFactory: ViewModelProvider.Factory
     ): ViewModelProvider.Factory {
         return EntryPoints.get(activity, ViewModelFactoryEntryPoint::class.java)
             .internalViewModelFactory()
-            .fromActivity(activity, owner, delegateFactory)
+            .fromActivity(owner, delegateFactory)
     }
 
     internal class InternalViewModelFactory @Inject internal constructor(
-        private val application: Application,
         @HiltViewModelMap.KeySet private val keySet: Set<String>,
         private val viewModelComponentBuilder: ViewModelComponentBuilder
     ) {
         fun fromActivity(
-            activity: ComponentActivity,
             owner: SavedStateRegistryOwner,
-            delegateFactory: ViewModelProvider.Factory?
+            delegateFactory: ViewModelProvider.Factory
         ): ViewModelProvider.Factory {
-            val defaultArgs = activity.intent?.extras
-            val delegate = delegateFactory
-                ?: if (owner is HasDefaultViewModelProviderFactory) {
-                    owner.defaultViewModelProviderFactory
-                } else {
-                    null
-                }
-                ?: SavedStateViewModelFactory(application, owner, defaultArgs)
-            return HiltViewModelFactory(owner, defaultArgs, keySet, delegate, viewModelComponentBuilder)
+            return HiltViewModelFactory(owner, null, keySet, delegateFactory, viewModelComponentBuilder)
         }
     }
 
