@@ -6,6 +6,7 @@ include(
     ":samples:multi-module:navigation",
     ":samples:multi-module:feature-home",
     ":samples:multi-module:feature-posts",
+    ":samples:test",
 
     ":voyager-core",
     ":voyager-navigator",
