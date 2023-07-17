@@ -45,6 +45,46 @@ Turn on the Warp Drive and enjoy the trek 🖖
 ### Documentation
 See the [project website](https://voyager.adriel.cafe) for documentation and APIs.
 
+```kotlin
+dependencies {
+    // Navigator, supports Android, Desktop, iOS and MacOS
+    implementation("ca.gosyer:voyager-navigator:<version>")
+
+    // TabNavigator, supports Android, Desktop, iOS and MacOS
+    implementation("ca.gosyer:voyager-tab-navigator:<version>")
+
+    // BottomSheetNavigator, supports Android, Desktop, iOS and MacOS
+    implementation("ca.gosyer:voyager-bottom-sheet-navigator:<version>")
+
+    // Transitions, supports Android, Desktop, iOS and MacOS
+    implementation("ca.gosyer:voyager-transitions:<version>")
+
+    // Android ViewModel integration
+    implementation("ca.gosyer:voyager-androidx:<version>")
+
+    // Hilt integration
+    implementation("ca.gosyer:voyager-hilt:<version>")
+
+    // Kodein integration
+    implementation("ca.gosyer:voyager-kodein:<version>")
+
+    // Koin integration
+    implementation("ca.gosyer:voyager-koin:<version>")
+
+    // Kotlin Routing integration
+    implementation("ca.gosyer:voyager-routing:<version>")
+
+    // Kotlin Routing integration with typesafe urls
+    implementation("ca.gosyer:voyager-routing-typesafe:<version>")
+
+    // RxJava integration, supports Android and Desktop
+    implementation("ca.gosyer:voyager-rxjava:<version>")
+
+    // LiveData integration
+    implementation("ca.gosyer:voyager-livedata:<version>")
+}
+```
+
 ### Features
 - [Supported platforms](https://voyager.adriel.cafe/setup#platform-compatibility): Android, iOS, Desktop, Web.
 - [Linear navigation](https://voyager.adriel.cafe/navigation)
