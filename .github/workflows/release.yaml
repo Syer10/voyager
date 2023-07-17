@@ -1,7 +1,8 @@
 name: Release
 on:
-  release:
-    types: [prereleased, released]
+  push:
+    tags:
+      - '*'
 
 jobs:
 
@@ -25,13 +26,15 @@ jobs:
           java-version: 11
           distribution: 'temurin'
 
+      - name: Decrypt secrets
+        run: release/signing-setup.sh ${{ secrets.ENCRYPT_KEY }}
+
       - name: Deploy to Sonatype
-        run: |
-          NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
-          echo "New version: ${NEW_VERSION}"
-          ./gradlew -Pversion=${NEW_VERSION} publish --stacktrace
+        run: ./gradlew publish --stacktrace
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_PRIVATE_KEY }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
+
+      - name: Clean secrets
+        if: always()
+        run: release/signing-cleanup.sh
